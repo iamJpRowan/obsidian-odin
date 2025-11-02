@@ -1,16 +1,23 @@
 version: '3.8'
 
 services:
-  odin:
-    container_name: odin
-    image: aichenskyi/odin:latest
+  plugin:
+    container_name: odin-plugin
+    build:
+      context: ./packages/plugin
+      dockerfile: ../../Dockerfile
     ports:
       - "1234:1234"
     depends_on:
-      - bor
-  bor:
-    container_name: bor
-    image: aichenskyi/bor:latest
+      - backend
+    volumes:
+      - ./packages/plugin:/usr/src/app
+      - /usr/src/app/node_modules
+  backend:
+    container_name: odin-backend
+    build:
+      context: ./packages/backend
+      dockerfile: ./Dockerfile
     ports:
       - "8000:8000"
     environment:
@@ -18,9 +25,16 @@ services:
       - HNSWLIB_NO_NATIVE=1
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - LLM_MODEL_NAME=${LLM_MODEL_NAME}
+      - MEMGRAPH_HOST=${MEMGRAPH_HOST:-memgraph}
+      - MEMGRAPH_PORT=${MEMGRAPH_PORT:-7687}
+      - CHROMA_DATA_DIR=${CHROMA_DATA_DIR:-/etc/chroma}
+      - CHROMA_VECTOR_SPACE=${CHROMA_VECTOR_SPACE:-cosine}
+      - EMBEDDING_MODEL_NAME=${EMBEDDING_MODEL_NAME:-text-embedding-ada-002}
+      - LLM_MODEL_TEMPERATURE=${LLM_MODEL_TEMPERATURE:-0.2}
       - MOCK="False"
     volumes:
       - chroma_data:/etc/chroma
+      - ./packages/backend:/usr/src/bor
     depends_on:
       - memgraph
   memgraph:

@@ -1,30 +1,38 @@
 [![react](https://img.shields.io/badge/React-61DBFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
 [![typescript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![styledcomponents](https://img.shields.io/badge/styled_components-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white)](https://styled-components.com/)
+[![python](https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![fastapi](https://img.shields.io/badge/fastapi-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 
 [![obsidian](https://img.shields.io/badge/obsidian-7C3AED?style=for-the-badge&logo=obsidian&logoColor=white)](https://obsidian.md/)
 [![docker](https://img.shields.io/badge/docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
 
 # ODIN - Obsidian Driven Information Network
 
+> **Monorepo Edition**: This repository now contains both the Obsidian plugin (frontend) and the BOR backend in a unified workspace for easier development and customization.
+
 ## Table of contents
 1. [Features](#features)
-2. [Disclaimer](#disclaimer)
-3. [Prerequisites](#prerequisites)
-4. [Installation](#installation)
-	1. [Docker](#docker-installation)
+2. [Architecture](#architecture)
+3. [Disclaimer](#disclaimer)
+4. [Prerequisites](#prerequisites)
+5. [Installation](#installation)
+	1. [Docker (Recommended)](#docker-installation)
 	2. [Manual](#manual-installation)
+6. [Project Structure](#project-structure)
+7. [Customization](#customization)
+8. [Development](#development)
 
 ## Features
 
-<img src="./src/assets/images/odin.png" alt="odin">
+<img src="./packages/plugin/src/assets/images/odin.png" alt="odin">
 
 Most features are accessible through the `Graph Prompt view` button in the menu opened by clicking the `Expand` button in the right upper corner of Obsidian.
 
 1. **Prompt Bar for LLM Queries**
 
 <p align="center">
-  <img src="./src/assets/images/odin-promptbar.png" alt="odin prompt bar" width="400">
+  <img src="./packages/plugin/src/assets/images/odin-promptbar.png" alt="odin prompt bar" width="400">
 </p>
 
 - ODIN integrates Large Language Models (LLMs) into Obsidian using LangChain, allowing you to ask questions about the data stored in your knowledge graph right from the prompt bar.
@@ -38,7 +46,7 @@ Most features are accessible through the `Graph Prompt view` button in the menu 
 3. **Dropdown Menu Functions**
 
 <p align="center">
-  <img src="./src/assets/images/odin-dropdown.png" alt="odin dropdown menu" width="400">
+  <img src="./packages/plugin/src/assets/images/odin-dropdown.png" alt="odin dropdown menu" width="400">
 </p>
 
 Right click on the highlighted text in the editor to access the following features:
@@ -49,87 +57,331 @@ Right click on the highlighted text in the editor to access the following featur
 
 - **Node suggestion**: Access thematically connected nodes related to the highlighted text, fostering meaningful connections and comprehensive understanding of your information.
 
+## Architecture
+
+ODIN consists of three main components:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      ODIN Architecture                       │
+├─────────────────────────────────────────────────────────────┤
+│                                                               │
+│  ┌───────────────────┐         ┌───────────────────┐        │
+│  │  Obsidian Plugin  │────────▶│   BOR Backend     │        │
+│  │   (TypeScript)    │ HTTP    │    (Python)       │        │
+│  │   React + Cyto.js │         │  FastAPI + AI     │        │
+│  └───────────────────┘         └─────────┬─────────┘        │
+│                                           │                   │
+│                                           ▼                   │
+│                                 ┌───────────────────┐        │
+│                                 │    Memgraph DB    │        │
+│                                 │  (Graph Database) │        │
+│                                 └───────────────────┘        │
+└─────────────────────────────────────────────────────────────┘
+```
+
+- **Plugin**: Obsidian plugin UI (React + TypeScript)
+- **Backend**: Python FastAPI server with LangChain + OpenAI integration
+- **Database**: Memgraph for storing and querying knowledge graphs
+
 ## Disclaimer
 
 > **Warning**
-> It is recommended that you have access to GPT-4 via the OpenAI API. GPT-3.5 will probably fail to make correct knowledge graphs from your data.
-> Since we still don't have access to GPT-4 OpenAI API, although we made our account a month ago and generated >1$ in billing a week ago,
-> the `init_repo`, `update_file` and `add_file` endpoints are still untested. We initialized knowledge graphs manually, through ChatGPT.
-> **Here be dragons.**
+> - It is **strongly recommended** that you have access to **GPT-4** via the OpenAI API. GPT-3.5 will probably fail to make correct knowledge graphs from your data.
+> - The `init_repo`, `update_file` and `add_file` endpoints may be untested with your specific vault structure.
+> - **Here be dragons.** 🐉
 
 ## Prerequisites
 
 Before you begin, make sure you have the following:
 
-- Obsidian installed on your system.
-- An active Obsidian vault.
+- **Obsidian** installed on your system
+- An active **Obsidian vault**
+- An **OpenAI API key** (with GPT-4 access recommended)
 
 ## Installation
 
-1. **Download the Plugin:**
+### Docker Installation (Recommended)
 
-    - Clone the repository inside the plugins folder (your_vault/.obsidian/plugins) using Git:
-      ```
-      git clone https://github.com/memgraph/odin.git
-      ```    
+Docker setup automatically installs and runs Memgraph database, the backend, and the plugin build process.
 
-2. **Install Dependencies and Start the Plugin:**
+#### Prerequisites
+- [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/install/) installed
 
-    - Open your terminal or command prompt.
-    - Navigate to the plugin's root directory:
-      ```
-      cd odin
-      ```
-    - You have the option to install ODIN using Docker, which will automatically install, set up and run the Memgraph database, the backend, and frontend components, or you can manually run the project locally for a more customized setup or if you already have Memgraph up and running.
-      ### Docker installation
+#### Steps
 
-      Before you start, make sure you have a running [Docker](https://www.docker.com/) instance and [Docker compose](https://docs.docker.com/compose/install/) installed.
+1. **Clone the Repository:**
+   ```bash
+   # Clone inside your Obsidian vault's plugins folder
+   cd your_vault/.obsidian/plugins
+   git clone https://github.com/memgraph/odin.git obsidian-odin
+   cd obsidian-odin
+   ```
 
-      1. You will need to create a `.env` file inside the ODIN folder with your OpenAI API key to access the app features. It should look like this:
-        ```
-        OPENAI_API_KEY=YOUR_API_KEY
-        LLM_MODEL_NAME=gpt-4 # try with other models at your own risk 
-        ```
-        Where YOUR_API_KEY is a key you can get [here](https://openai.com/).
+2. **Configure Environment Variables:**
+   ```bash
+   # Copy the example env file
+   cp .env.example .env
+   
+   # Edit .env and add your OpenAI API key
+   # Required: OPENAI_API_KEY=your_actual_api_key_here
+   # Recommended: LLM_MODEL_NAME=gpt-4
+   ```
 
-      2. Run:
-        ```
-        docker compose up
-        ```
+3. **Start All Services:**
+   ```bash
+   docker compose up
+   ```
+   
+   This will start:
+   - **Memgraph** (graph database) on port 7687
+   - **Backend** (BOR API) on port 8000
+   - **Plugin build** process
 
-        It will take up to ten minutes to download and run all dependencies. Now, that you have ODIN successfully installed, you can go to the next step.
+   The first run may take up to 10 minutes to download and build everything.
 
-      ### Manual installation
-  
-      Make sure you have [Node.js](https://nodejs.org/en/download/current) version 14 or above and [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) installed.
+4. **Enable the Plugin in Obsidian:**
+   - In Obsidian settings, navigate to "Options" → "Community plugins"
+   - Click "Turn on community plugins" (disable restricted mode)
+   - Find "ODIN" in the list and toggle it on
+   - If you don't see ODIN, reload Obsidian
 
-      1. Install the required Node.js dependencies:
-        ```
-        npm install
-        ```
+### Manual Installation
 
-      2. Start the development build:
-        ```
-        npm run dev
-        ```
+For development or if you want to customize the backend logic.
 
-        You now have the app frontend up and running.
+#### Prerequisites
+- [Node.js](https://nodejs.org/) v14+ and npm
+- [Python](https://www.python.org/) 3.9.16
+- [conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html) (recommended)
+- [Memgraph](https://memgraph.com/docs/memgraph/installation)
 
-      3. You will also need to run the [Memgraph](https://memgraph.com/docs/memgraph/installation) database and the application backend by following the installation steps for [BOR](https://github.com/memgraph/bor) - backend for Obsidian and Rune.
+#### Steps
 
-4. **Disable Restricted Mode:**
+1. **Clone the Repository:**
+   ```bash
+   cd your_vault/.obsidian/plugins
+   git clone https://github.com/memgraph/odin.git obsidian-odin
+   cd obsidian-odin
+   ```
 
-    - In the Obsidian settings, navigate to "Options."
-    - Click on the "Community plugins" tab.
-    - Click the "Turn on community plugins" button.
+2. **Install Plugin Dependencies:**
+   ```bash
+   npm install
+   npm run dev  # Starts the plugin build in watch mode
+   ```
 
-5. **Enable the Plugin:**
+3. **Set Up Backend:**
+   ```bash
+   # Create conda environment
+   conda create --name odin_backend python=3.9.16
+   conda activate odin_backend
+   
+   # Install backend dependencies
+   cd packages/backend
+   pip install -e .
+   
+   # Configure environment
+   cp ../../.env.example ../../.env
+   # Edit .env with your OpenAI API key
+   ```
 
-    - If you don't see ODIN in the list, try reloading Obsidian.
-    - Navigate back to the "Community plugins" section in the Obsidian settings.
-    - Find "ODIN" in the list of plugins.
-    - Toggle the switch next to the plugin name to enable it.
+4. **Start Memgraph:**
+   ```bash
+   # Option 1: Using Docker
+   docker run -p 7687:7687 -p 7444:7444 memgraph/memgraph-mage:1.15-memgraph-2.15
+   
+   # Option 2: Native installation
+   # Follow: https://memgraph.com/docs/memgraph/installation
+   ```
 
-6. **Plugin Usage:**
+5. **Start Backend Server:**
+   ```bash
+   cd packages/backend
+   uvicorn core.restapi.api:app --reload
+   ```
 
-    - The ODIN plugin is now installed and active. You can access its features through the Obsidian interface.
+6. **Enable Plugin in Obsidian** (same as Docker steps above)
+
+## Project Structure
+
+```
+obsidian-odin/
+├── packages/
+│   ├── plugin/              # Obsidian plugin (TypeScript/React)
+│   │   ├── src/
+│   │   │   ├── index.ts     # Plugin entry point
+│   │   │   ├── ui/          # React components
+│   │   │   ├── model/       # TypeScript models
+│   │   │   └── util/        # Utility functions
+│   │   ├── manifest.json    # Obsidian plugin manifest
+│   │   ├── package.json
+│   │   └── esbuild.config.mjs
+│   │
+│   └── backend/             # BOR Backend (Python/FastAPI)
+│       ├── core/
+│       │   ├── knowledgebase/     # Graph logic
+│       │   │   ├── notes/         # Vault processing
+│       │   │   ├── prompts/       # LLM prompts (customize here!)
+│       │   │   └── Utils.py
+│       │   └── restapi/
+│       │       └── api.py         # FastAPI endpoints
+│       ├── requirements.txt
+│       └── Dockerfile
+│
+├── docker-compose.yml       # Orchestrates all services
+├── .env.example             # Environment configuration template
+├── package.json             # Root workspace config
+└── README.md                # This file
+```
+
+## Customization
+
+### Understanding Your Vault's Relationships
+
+The backend (BOR) uses GPT-4 to analyze your markdown files and extract:
+- **Nodes**: Key concepts, entities, topics
+- **Edges**: Relationships between concepts
+- **Embeddings**: Vector representations for semantic search
+
+### How to Tune for Your Vault
+
+The relationship extraction happens in the backend. To customize:
+
+1. **Modify LLM Prompts:**
+   ```bash
+   cd packages/backend/core/knowledgebase/prompts/
+   # Edit these files to change how GPT-4 interprets your notes:
+   # - prompt_generate: Initial graph creation
+   # - prompt_update: File update logic
+   # - system_message_*: System-level instructions
+   ```
+
+2. **Add Obsidian-Specific Parsers:**
+   
+   Edit `packages/backend/core/knowledgebase/notes/VaultManager.py` to recognize:
+   - Wikilinks: `[[Page Name]]`
+   - Tags: `#topic`
+   - YAML frontmatter relationships
+   - Dataview inline fields
+   
+   Example: Parse existing links before sending to GPT-4 to ensure they're preserved.
+
+3. **Adjust Model Settings:**
+   
+   In `.env`:
+   ```bash
+   LLM_MODEL_NAME=gpt-4               # Try gpt-4-turbo-preview
+   LLM_MODEL_TEMPERATURE=0.2          # Lower = more deterministic
+   EMBEDDING_MODEL_NAME=text-embedding-ada-002
+   ```
+
+4. **Query the Graph Directly:**
+   ```bash
+   # Connect to Memgraph to see what's stored
+   docker exec -it memgraph mgconsole
+   
+   # Example Cypher queries:
+   MATCH (n) RETURN n LIMIT 25;                    # Show nodes
+   MATCH (n)-[r]->(m) RETURN n, r, m LIMIT 50;   # Show relationships
+   MATCH (n {file_path: "/path/to/note.md"}) RETURN n;
+   ```
+
+### Backend API Documentation
+
+When the backend is running, visit: **http://localhost:8000/docs**
+
+This shows all available endpoints for customization.
+
+## Development
+
+### Working on the Plugin
+
+```bash
+# Install dependencies
+npm install
+
+# Development mode (auto-rebuild on changes)
+npm run dev
+
+# Production build
+npm run build
+```
+
+### Working on the Backend
+
+```bash
+cd packages/backend
+
+# Activate environment
+conda activate odin_backend
+
+# Run with auto-reload
+uvicorn core.restapi.api:app --reload
+
+# Run tests (if available)
+pytest
+```
+
+### Docker Development
+
+```bash
+# Build and start all services
+docker compose up --build
+
+# Rebuild specific service
+docker compose build backend
+
+# View logs
+docker compose logs -f backend
+
+# Stop all services
+docker compose down
+
+# Clean everything (including volumes)
+docker compose down -v
+```
+
+## Troubleshooting
+
+### Plugin doesn't appear in Obsidian
+- Ensure you cloned into `your_vault/.obsidian/plugins/`
+- Check that `manifest.json` and `main.js` exist
+- Reload Obsidian (Ctrl/Cmd + R)
+
+### Backend connection errors
+- Verify backend is running: `curl http://localhost:8000/docs`
+- Check Docker logs: `docker compose logs backend`
+- Ensure `.env` has valid `OPENAI_API_KEY`
+
+### Graph not updating
+- Check Memgraph is running: `docker ps | grep memgraph`
+- Initialize repo: Backend should auto-call `/knowledge_base/general/init_local_repo`
+- Check backend logs for errors
+
+### GPT-4 API errors
+- Verify API key has GPT-4 access
+- Check OpenAI usage limits
+- Try `gpt-3.5-turbo` for testing (expect lower quality)
+
+## Contributing
+
+Contributions are welcome! This monorepo structure makes it easier to:
+- See the full data flow from UI → API → Database
+- Test changes across the stack
+- Customize for your specific vault structure
+
+## License
+
+MIT License - see [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- **Memgraph** for the graph database
+- **Obsidian** for the extensible note-taking platform
+- **OpenAI** for GPT-4 and embeddings
+- Original **ODIN** and **BOR** teams
+
+---
+
+**Need Help?** Open an issue or check the backend API docs at http://localhost:8000/docs when running.
