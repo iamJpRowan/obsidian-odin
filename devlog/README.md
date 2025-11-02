@@ -24,6 +24,7 @@ The document body contains the narrative of what was accomplished and why.
 | Date | Title | Human | AI | Focus |
 |------|-------|-------|-----|-------|
 | 2025-11-02 | [Monorepo Setup](2025-11-02-monorepo-setup.md) | jprowan | Claude Sonnet 3.5 | Repository restructuring & backend integration |
+| 2025-11-02 | [Plugin Dev & Release Workflow](2025-11-02-plugin-dev-release-workflow.md) | jprowan | Claude Sonnet 4.5 | Development environment & automated releases |
 
 ## Contributing to Devlogs
 
