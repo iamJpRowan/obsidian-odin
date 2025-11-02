@@ -22,6 +22,7 @@
 6. [Project Structure](#project-structure)
 7. [Customization](#customization)
 8. [Development](#development)
+9. [Documentation](#documentation)
 
 ## Features
 
@@ -342,24 +343,35 @@ docker compose down
 docker compose down -v
 ```
 
-## Troubleshooting
+## Documentation
 
-### Plugin doesn't appear in Obsidian
+### 📚 Available Documentation
+
+- **[Quickstart Guide](docs/quickstart.md)** - Get up and running in 5 minutes
+- **[Contributing Guide](docs/contributing.md)** - Developer guide for customization
+- **[Testing Guide](docs/testing.md)** - How to test your changes
+- **[Docker Build Guide](docs/docker-build.md)** - Building and managing Docker images
+- **[Development Log](devlog/)** - Detailed history of design decisions and implementation
+- **[Changelog](CHANGELOG.md)** - Version history and release notes
+
+### 🔧 Troubleshooting
+
+#### Plugin doesn't appear in Obsidian
 - Ensure you cloned into `your_vault/.obsidian/plugins/`
 - Check that `manifest.json` and `main.js` exist
 - Reload Obsidian (Ctrl/Cmd + R)
 
-### Backend connection errors
+#### Backend connection errors
 - Verify backend is running: `curl http://localhost:8000/docs`
 - Check Docker logs: `docker compose logs backend`
 - Ensure `.env` has valid `OPENAI_API_KEY`
 
-### Graph not updating
+#### Graph not updating
 - Check Memgraph is running: `docker ps | grep memgraph`
 - Initialize repo: Backend should auto-call `/knowledge_base/general/init_local_repo`
 - Check backend logs for errors
 
-### GPT-4 API errors
+#### GPT-4 API errors
 - Verify API key has GPT-4 access
 - Check OpenAI usage limits
 - Try `gpt-3.5-turbo` for testing (expect lower quality)
