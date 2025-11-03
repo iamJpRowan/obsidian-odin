@@ -1,8 +1,55 @@
 # Helper Scripts
 
-These scripts enable checking PR status and running local validation from within the IDE.
+This directory contains development and CI/CD scripts.
 
-## Available Scripts
+## Development Scripts ⭐
+
+### `setup-dev.sh` - One-Time Setup
+
+Sets up your development environment with conda, npm dependencies, and Docker images.
+
+**Usage:**
+```bash
+./scripts/setup-dev.sh
+```
+
+**What it does:**
+- Creates conda environment `odin_backend` with Python 3.9.16
+- Installs backend dependencies (FastAPI, LangChain, etc.)
+- Installs plugin dependencies (TypeScript, React, etc.)
+- Pulls Memgraph Docker image
+
+### `start-dev.sh` - Daily Development
+
+Starts the recommended hybrid development environment:
+- Memgraph database in Docker
+- Backend server locally with auto-reload
+- Plugin build watch locally
+
+**Usage:**
+```bash
+./scripts/start-dev.sh
+```
+
+**Features:**
+- ✅ Auto-reload for Python and TypeScript changes (< 1 second)
+- ✅ Creates `backend.log` and `plugin.log` for debugging
+- ✅ Tracks PIDs for clean shutdown
+
+### `stop-dev.sh` - Stop Services
+
+Stops all running development services cleanly.
+
+**Usage:**
+```bash
+./scripts/stop-dev.sh
+```
+
+**See [Quick Dev Start Guide](../docs/QUICK-DEV-START.md) for detailed instructions.**
+
+---
+
+## CI/CD Scripts
 
 ### `check-pr-status.sh`
 
