@@ -11,6 +11,9 @@ Welcome to the ODIN documentation! This directory contains all user-facing and d
 
 ### Technical Documentation
 - **[Docker Build Guide](docker-build.md)** - Building and managing Docker images
+- **[Plugin Development](plugin-development.md)** - Setting up plugin development environment
+- **[Plugin Releases](plugin-releases.md)** - Releasing plugin updates to GitHub
+- **[CI/CD Workflow](ci-workflow.md)** - GitHub Actions and PR status checking
 
 ## Documentation Structure
 
@@ -20,7 +23,10 @@ docs/
 ├── quickstart.md         # Fast setup guide
 ├── contributing.md       # Developer contribution guide
 ├── testing.md            # Testing instructions
-└── docker-build.md       # Docker image management
+├── docker-build.md       # Docker image management
+├── plugin-development.md # Plugin dev environment setup
+├── plugin-releases.md    # Plugin release workflow
+└── ci-workflow.md        # CI/CD and PR status checking
 ```
 
 ## Additional Resources

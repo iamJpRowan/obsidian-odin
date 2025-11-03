@@ -1,0 +1,14 @@
+# Build outputs
+main.js
+main.js.map
+*.js.map
+
+# Environment
+.env
+
+# Dependencies
+node_modules/
+
+# OS
+.DS_Store
+
