@@ -190,7 +190,7 @@ For development or if you want to customize the backend logic.
 4. **Start Memgraph:**
    ```bash
    # Option 1: Using Docker
-   docker run -p 7687:7687 -p 7444:7444 memgraph/memgraph-mage:1.15-memgraph-2.15
+   docker run -p 7687:7687 -p 3000:3000 -p 7444:7444 memgraph/memgraph-platform:latest
    
    # Option 2: Native installation
    # Follow: https://memgraph.com/docs/memgraph/installation

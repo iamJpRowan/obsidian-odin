@@ -101,7 +101,7 @@ echo -e "${GREEN}✓ Plugin dependencies installed${NC}"
 
 # Pull Memgraph Docker image
 echo -e "\n${BLUE}Pulling Memgraph Docker image...${NC}"
-docker pull memgraph/memgraph-mage:1.15-memgraph-2.15
+docker pull memgraph/memgraph-platform:latest
 echo -e "${GREEN}✓ Memgraph image ready${NC}"
 
 # Summary

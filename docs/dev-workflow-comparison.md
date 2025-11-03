@@ -70,7 +70,7 @@ docker compose up --build
 **Start:**
 ```bash
 # Terminal 1: Memgraph
-docker run -p 7687:7687 memgraph/memgraph-mage:1.15-memgraph-2.15
+docker run -p 7687:7687 -p 3000:3000 memgraph/memgraph-platform:latest
 
 # Terminal 2: Backend
 cd packages/backend

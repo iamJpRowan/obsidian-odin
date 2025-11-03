@@ -47,6 +47,7 @@ After `./scripts/start-dev.sh`:
 | Service | Where | URL | Auto-reload? |
 |---------|-------|-----|--------------|
 | Memgraph | Docker | localhost:7687 | - |
+| Memgraph Lab | Docker | http://localhost:3000 | - |
 | Backend | Local (conda) | http://localhost:8000 | ✅ Yes |
 | Plugin Build | Local (npm) | - | ✅ Yes |
 
@@ -73,6 +74,10 @@ open http://localhost:8000/docs
 #    Settings → Community Plugins → Enable "ODIN"
 
 # 3. Check Memgraph database:
+# Option A: Visual interface (recommended)
+open http://localhost:3000
+
+# Option B: Command line
 docker exec -it memgraph mgconsole
 # Then: MATCH (n) RETURN n LIMIT 10;
 ```
@@ -183,6 +188,8 @@ Use local development (this guide) when:
 
 ## Next Steps
 
+- **[Vault Testing Guide](vault-testing-guide.md)** - Test importing your vault data
+- **[Memgraph Lab Guide](memgraph-lab-guide.md)** - Visual graph database exploration
 - **[Contributing Guide](contributing.md)** - Learn about the codebase structure
 - **[Testing Guide](testing.md)** - How to test your changes
 - **[Plugin Development](plugin-development.md)** - Plugin-specific tips

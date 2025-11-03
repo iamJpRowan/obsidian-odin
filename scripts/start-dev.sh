@@ -44,9 +44,10 @@ else
     docker run -d \
         --name memgraph \
         -p 7687:7687 \
+        -p 3000:3000 \
         -p 7444:7444 \
         -e MEMGRAPH="--log-level=TRACE" \
-        memgraph/memgraph-mage:1.15-memgraph-2.15
+        memgraph/memgraph-platform:latest
     echo -e "${GREEN}✓ Memgraph created and started${NC}"
 fi
 
@@ -88,6 +89,7 @@ echo -e ""
 echo -e "🌐 Backend API:    ${BLUE}http://localhost:8000${NC}"
 echo -e "📚 API Docs:       ${BLUE}http://localhost:8000/docs${NC}"
 echo -e "📊 Memgraph:       ${BLUE}localhost:7687${NC}"
+echo -e "🎨 Memgraph Lab:   ${BLUE}http://localhost:3000${NC}"
 echo -e ""
 echo -e "📝 View Logs:"
 echo -e "   Backend:  ${YELLOW}tail -f backend.log${NC}"
