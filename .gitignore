@@ -29,3 +29,9 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# Development logs and PIDs
+backend.log
+plugin.log
+.backend.pid
+.plugin.pid

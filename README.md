@@ -296,12 +296,31 @@ This shows all available endpoints for customization.
 
 ## Development
 
+### Quick Start (Recommended)
+
+For the **fastest development experience** with auto-reload:
+
+```bash
+# One-time setup
+./scripts/setup-dev.sh
+
+# Daily workflow - starts Memgraph (Docker) + Backend & Plugin (local)
+./scripts/start-dev.sh
+
+# Stop everything
+./scripts/stop-dev.sh
+```
+
+**See [Quick Dev Start Guide](docs/QUICK-DEV-START.md) for detailed instructions.**
+
+This hybrid approach gives you:
+- ✅ **Instant feedback**: Backend and plugin auto-reload in < 1 second
+- ✅ **Easy debugging**: Direct access to logs and Python debugger
+- ✅ **Simple setup**: Docker only for Memgraph database
+
 ### Working on the Plugin
 
 ```bash
-# Install dependencies
-npm install
-
 # Development mode (auto-rebuild on changes)
 npm run dev
 
@@ -324,7 +343,9 @@ uvicorn core.restapi.api:app --reload
 pytest
 ```
 
-### Docker Development
+### Docker Development (Full Stack Testing)
+
+Use Docker when you need to test the full production-like stack:
 
 ```bash
 # Build and start all services
@@ -347,6 +368,7 @@ docker compose down -v
 
 ### 📚 Available Documentation
 
+- **[Quick Dev Start](docs/QUICK-DEV-START.md)** - ⭐ Start here for development (recommended workflow)
 - **[Quickstart Guide](docs/quickstart.md)** - Get up and running in 5 minutes
 - **[Contributing Guide](docs/contributing.md)** - Developer guide for customization
 - **[Testing Guide](docs/testing.md)** - How to test your changes
