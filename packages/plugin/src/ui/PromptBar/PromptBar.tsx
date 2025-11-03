@@ -104,21 +104,19 @@ const PromptBar: React.FC<PromptBarProps> = ({
 			setErrorMsg("");
 			let fetchUrl: string;
 			let fetchBody = {};
-			if (type === 0) {
-				const adapter = app?.vault.adapter;
-				let root = "";
-				if (adapter instanceof FileSystemAdapter)
-					root = adapter.getBasePath().replaceAll("\\", "/");
-				fetchUrl = "http://localhost:8000/knowledge_base/general/ask";
-				fetchBody = {
-					repo: {
-						path: root,
-						type: "Notes",
-					},
-					prompt: val,
+		if (type === 0) {
+			// Temporarily use mock data path for testing
+			const root = "/Users/jprowan/Repos/obsidian-odin-local-llm/packages/backend/core/knowledgebase/mock_repos/History";
+			fetchUrl = "http://localhost:8000/knowledge_base/general/ask";
+			fetchBody = {
+				repo: {
+					path: root,
 					type: "Notes",
-				};
-			} else {
+				},
+				prompt: val,
+				type: "Notes",
+			};
+		} else {
 				if (app?.workspace.activeEditor?.editor?.getValue())
 					setContent(
 						app?.workspace.activeEditor?.editor?.getValue() || ""

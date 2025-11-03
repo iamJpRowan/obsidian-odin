@@ -261,13 +261,14 @@ const Main: React.FC = (): React.JSX.Element => {
 	useEffect(() => {
 		setDisabled(true);
 		const initRepo = async () => {
-			await fetchData(
-				"http://localhost:8000/knowledge_base/general/init_local_repo",
-				{
-					path: root,
-					type: "Notes",
-				}
-			);
+			// Temporarily disabled for testing with mock data
+			// await fetchData(
+			// 	"http://localhost:8000/knowledge_base/general/init_local_repo",
+			// 	{
+			// 		path: root,
+			// 		type: "Notes",
+			// 	}
+			// );
 		};
 
 		initRepo();

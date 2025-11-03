@@ -32,8 +32,8 @@ class GeneralQueryAgent:
                 temperature=constants.LLM_MODEL_TEMPERATURE,
                 base_url=constants.OLLAMA_BASE_URL
             )
-            # Ollama doesn't support OpenAI functions, use structured chat instead
-            self.agent_type = AgentType.STRUCTURED_CHAT_ZERO_SHOT_REACT_DESCRIPTION
+            # Use simpler ZERO_SHOT_REACT agent which works better with Ollama
+            self.agent_type = AgentType.ZERO_SHOT_REACT_DESCRIPTION
         else:  # openai
             from langchain_openai import ChatOpenAI
             self.llm = ChatOpenAI(
@@ -92,7 +92,8 @@ class GeneralQueryAgent:
         return
 
     def ask(self: GeneralQueryAgent, question: str) -> str:
-        return self.agent.run(question)
+        result = self.agent.invoke({"input": question})
+        return result.get("output", str(result))
 
 
 class NotesQueryAgent(GeneralQueryAgent):
