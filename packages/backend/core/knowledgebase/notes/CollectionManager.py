@@ -18,10 +18,16 @@ class CollectionManager:
         self.chroma_client = chromadb.PersistentClient(
             constants.CHROMA_DATA_DIR, settings=chromadb.Settings(allow_reset=True))
 
-        self.ada_ef = chromadb.utils.embedding_functions.OpenAIEmbeddingFunction(
-            api_key=constants.OPENAI_API_KEY,
-            model_name=constants.EMBEDDING_MODEL_NAME,
-        )
+        # Initialize embedding function based on provider
+        if constants.EMBEDDING_PROVIDER == "local":
+            self.ada_ef = chromadb.utils.embedding_functions.SentenceTransformerEmbeddingFunction(
+                model_name=constants.EMBEDDING_MODEL_NAME
+            )
+        else:  # openai
+            self.ada_ef = chromadb.utils.embedding_functions.OpenAIEmbeddingFunction(
+                api_key=constants.OPENAI_API_KEY,
+                model_name=constants.EMBEDDING_MODEL_NAME,
+            )
 
         if repo_path is not None:
             self.collection_name = Utils.collection_name_from_repo_path(

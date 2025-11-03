@@ -6,6 +6,7 @@ Welcome to the ODIN documentation! This directory contains all user-facing and d
 
 ### Getting Started
 - **[Quickstart Guide](quickstart.md)** - Get ODIN running in 5 minutes
+- **[Local LLM Setup](local-llm-setup.md)** - Run ODIN with complete privacy using Ollama
 - **[Contributing Guide](contributing.md)** - How to develop and customize ODIN
 - **[Testing Guide](testing.md)** - How to test your changes
 
@@ -21,6 +22,7 @@ Welcome to the ODIN documentation! This directory contains all user-facing and d
 docs/
 ├── README.md              # This file - documentation index
 ├── quickstart.md         # Fast setup guide
+├── local-llm-setup.md    # Local LLM setup with Ollama (privacy-focused)
 ├── contributing.md       # Developer contribution guide
 ├── testing.md            # Testing instructions
 ├── docker-build.md       # Docker image management
@@ -68,4 +70,3 @@ Found an error or want to improve the docs? Here's how:
 ---
 
 **Note:** This documentation covers the monorepo version of ODIN which includes both the plugin and backend in one repository for easier customization and development.
-

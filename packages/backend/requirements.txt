@@ -15,5 +15,6 @@ pip-requirements-parser
 pip-tools
 pydantic
 pyproject_hooks
+sentence-transformers
 typing_extensions
 uvicorn

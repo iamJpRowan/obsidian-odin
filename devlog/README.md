@@ -25,6 +25,7 @@ The document body contains the narrative of what was accomplished and why.
 |------|-------|-------|-----|-------|
 | 2025-11-02 | [Monorepo Setup](2025-11-02-monorepo-setup.md) | jprowan | Claude Sonnet 3.5 | Repository restructuring & backend integration |
 | 2025-11-02 | [Plugin Dev & Release Workflow](2025-11-02-plugin-dev-release-workflow.md) | jprowan | Claude Sonnet 4.5 | Development environment & automated releases |
+| 2025-11-03 | [Local LLM Implementation](2025-11-03-local-llm-implementation.md) | jprowan | Claude Sonnet 4.5 | Local LLM with Ollama for privacy |
 
 ## Contributing to Devlogs
 
@@ -46,4 +47,3 @@ As AI becomes an increasingly important tool in software development, maintainin
 - **Users** have confidence in the thoughtful development of the project
 
 This transparency also ensures proper credit attribution to both human developers and the AI tools that assist them.
-

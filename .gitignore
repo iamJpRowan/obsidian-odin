@@ -35,3 +35,7 @@ backend.log
 plugin.log
 .backend.pid
 .plugin.pid
+
+# ChromaDB local database storage
+chroma_data/
+**/chroma_data/
