@@ -67,8 +67,11 @@ export default class MagicGraphPlugin extends Plugin {
         if (this.app.workspace.getLeavesOfType(VIEW_TYPE).length) {
             return;
         }
-        this.app.workspace.getRightLeaf(false).setViewState({
-            type: VIEW_TYPE,
-        });
+        const leaf = this.app.workspace.getRightLeaf(false);
+        if (leaf) {
+            leaf.setViewState({
+                type: VIEW_TYPE,
+            });
+        }
     }
 }

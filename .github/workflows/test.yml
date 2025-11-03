@@ -1,0 +1,41 @@
+name: Test Plugin Build
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+
+      - name: Install dependencies
+        working-directory: packages/plugin
+        run: npm install
+
+      - name: Type check
+        working-directory: packages/plugin
+        run: npx tsc -noEmit -skipLibCheck
+
+      - name: Build plugin
+        working-directory: packages/plugin
+        run: npm run build
+
+      - name: Check build output
+        working-directory: packages/plugin
+        run: |
+          if [ ! -f "main.js" ]; then
+            echo "main.js not found!"
+            exit 1
+          fi
+          echo "✓ Build successful"
+

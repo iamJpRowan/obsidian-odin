@@ -12,6 +12,9 @@ Welcome to the ODIN documentation! This directory contains all user-facing and d
 
 ### Technical Documentation
 - **[Docker Build Guide](docker-build.md)** - Building and managing Docker images
+- **[Plugin Development](plugin-development.md)** - Setting up plugin development environment
+- **[Plugin Releases](plugin-releases.md)** - Releasing plugin updates to GitHub
+- **[CI/CD Workflow](ci-workflow.md)** - GitHub Actions and PR status checking
 
 ## Documentation Structure
 
@@ -22,7 +25,10 @@ docs/
 ├── local-llm-setup.md    # Local LLM setup with Ollama (privacy-focused)
 ├── contributing.md       # Developer contribution guide
 ├── testing.md            # Testing instructions
-└── docker-build.md       # Docker image management
+├── docker-build.md       # Docker image management
+├── plugin-development.md # Plugin dev environment setup
+├── plugin-releases.md    # Plugin release workflow
+└── ci-workflow.md        # CI/CD and PR status checking
 ```
 
 ## Additional Resources
@@ -64,4 +70,3 @@ Found an error or want to improve the docs? Here's how:
 ---
 
 **Note:** This documentation covers the monorepo version of ODIN which includes both the plugin and backend in one repository for easier customization and development.
-
