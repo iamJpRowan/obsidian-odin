@@ -36,11 +36,11 @@ class GeneralQueryAgent:
             self.agent_type = AgentType.STRUCTURED_CHAT_ZERO_SHOT_REACT_DESCRIPTION
         else:  # openai
             from langchain_openai import ChatOpenAI
-            self.llm = ChatOpenAI(
-                temperature=constants.LLM_MODEL_TEMPERATURE,
-                openai_api_key=constants.OPENAI_API_KEY,
-                model_name=constants.LLM_MODEL_NAME
-            )
+        self.llm = ChatOpenAI(
+            temperature=constants.LLM_MODEL_TEMPERATURE,
+            openai_api_key=constants.OPENAI_API_KEY,
+            model_name=constants.LLM_MODEL_NAME
+        )
             self.agent_type = AgentType.OPENAI_FUNCTIONS
 
         self.agent_kwargs = {

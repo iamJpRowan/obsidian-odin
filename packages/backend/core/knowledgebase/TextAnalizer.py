@@ -25,11 +25,11 @@ class TextAnalizer:
             )
         else:  # openai
             from langchain_openai import ChatOpenAI
-            self.model = ChatOpenAI(
-                openai_api_key=constants.OPENAI_API_KEY,
-                temperature=constants.LLM_MODEL_TEMPERATURE,
-                model_name=constants.LLM_MODEL_NAME
-            )
+        self.model = ChatOpenAI(
+            openai_api_key=constants.OPENAI_API_KEY,
+            temperature=constants.LLM_MODEL_TEMPERATURE,
+            model_name=constants.LLM_MODEL_NAME
+        )
 
         self.prompt_names = [
             'prompt_generate', 'system_message_generate',

@@ -24,10 +24,10 @@ class CollectionManager:
                 model_name=constants.EMBEDDING_MODEL_NAME
             )
         else:  # openai
-            self.ada_ef = chromadb.utils.embedding_functions.OpenAIEmbeddingFunction(
-                api_key=constants.OPENAI_API_KEY,
-                model_name=constants.EMBEDDING_MODEL_NAME,
-            )
+        self.ada_ef = chromadb.utils.embedding_functions.OpenAIEmbeddingFunction(
+            api_key=constants.OPENAI_API_KEY,
+            model_name=constants.EMBEDDING_MODEL_NAME,
+        )
 
         if repo_path is not None:
             self.collection_name = Utils.collection_name_from_repo_path(
