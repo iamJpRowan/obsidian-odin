@@ -4,7 +4,6 @@ from pathlib import Path
 import os
 
 from langchain import PromptTemplate
-from langchain.chat_models import ChatOpenAI
 from langchain.schema import (
     HumanMessage,
     SystemMessage
@@ -16,11 +15,21 @@ from core.knowledgebase import constants
 class TextAnalizer:
     def __init__(self: TextAnalizer) -> None:
 
-        self.model = ChatOpenAI(
-            openai_api_key=constants.OPENAI_API_KEY,
-            temperature=constants.LLM_MODEL_TEMPERATURE,
-            model_name=constants.LLM_MODEL_NAME
-        )
+        # Initialize LLM based on provider
+        if constants.LLM_PROVIDER == "ollama":
+            from langchain_community.chat_models import ChatOllama
+            self.model = ChatOllama(
+                model=constants.LLM_MODEL_NAME,
+                temperature=constants.LLM_MODEL_TEMPERATURE,
+                base_url=constants.OLLAMA_BASE_URL
+            )
+        else:  # openai
+            from langchain_openai import ChatOpenAI
+            self.model = ChatOpenAI(
+                openai_api_key=constants.OPENAI_API_KEY,
+                temperature=constants.LLM_MODEL_TEMPERATURE,
+                model_name=constants.LLM_MODEL_NAME
+            )
 
         self.prompt_names = [
             'prompt_generate', 'system_message_generate',

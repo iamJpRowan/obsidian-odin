@@ -6,7 +6,6 @@ import os
 from pathlib import Path
 
 from langchain.agents import Tool, initialize_agent, AgentType
-from langchain.chat_models import ChatOpenAI
 
 from langchain.prompts import MessagesPlaceholder, PromptTemplate
 from langchain.memory import ConversationBufferMemory
@@ -25,11 +24,24 @@ class GeneralQueryAgent:
         self.system_message = ''
         self._init_system_message()
 
-        self.llm = ChatOpenAI(
-            temperature=constants.LLM_MODEL_TEMPERATURE,
-            openai_api_key=constants.OPENAI_API_KEY,
-            model_name=constants.LLM_MODEL_NAME
-        )
+        # Initialize LLM based on provider
+        if constants.LLM_PROVIDER == "ollama":
+            from langchain_community.chat_models import ChatOllama
+            self.llm = ChatOllama(
+                model=constants.LLM_MODEL_NAME,
+                temperature=constants.LLM_MODEL_TEMPERATURE,
+                base_url=constants.OLLAMA_BASE_URL
+            )
+            # Ollama doesn't support OpenAI functions, use structured chat instead
+            self.agent_type = AgentType.STRUCTURED_CHAT_ZERO_SHOT_REACT_DESCRIPTION
+        else:  # openai
+            from langchain_openai import ChatOpenAI
+            self.llm = ChatOpenAI(
+                temperature=constants.LLM_MODEL_TEMPERATURE,
+                openai_api_key=constants.OPENAI_API_KEY,
+                model_name=constants.LLM_MODEL_NAME
+            )
+            self.agent_type = AgentType.OPENAI_FUNCTIONS
 
         self.agent_kwargs = {
             "extra_prompt_messages": [MessagesPlaceholder(variable_name="memory")],
@@ -57,7 +69,7 @@ class GeneralQueryAgent:
         self.agent = initialize_agent(
             tools,
             self.llm,
-            agent=AgentType.OPENAI_FUNCTIONS,
+            agent=self.agent_type,
             verbose=True,
             agent_kwargs=self.agent_kwargs,
             memory=self.memory
