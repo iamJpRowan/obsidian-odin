@@ -1,0 +1,19 @@
+<prompt>
+{prompt}
+
+<repo_path>
+{repo_path}
+
+<file_path>
+{file_path}
+
+Generate Cypher CREATE and MERGE queries to build a knowledge graph from the prompt above.
+
+Remember:
+- Create all nodes first
+- Then create relationships between them
+- Every node and relationship must have file_path and repo_path attributes
+- Output ONLY Cypher code, no explanations
+
+<cypher>
+

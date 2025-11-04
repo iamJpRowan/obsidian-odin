@@ -1,0 +1,28 @@
+Your task is to convert natural language into a knowledge graph using Cypher queries.
+
+You will be given a prompt in natural language, designated by <prompt>.
+The prompt comes from a file, given after <file_path>.
+The file is stored in a repository, given after <repo_path>.
+
+CRITICAL RULES FOR CYPHER SYNTAX:
+1. Always create nodes BEFORE creating relationships
+2. Use CREATE for new nodes, MERGE for nodes that might exist
+3. Never use MATCH after CREATE in the same query - MATCH won't find nodes just created
+4. If you need to reference a node you just created, use a variable and create the relationship in a separate statement
+5. Properties must be in the format: {{key: "value"}} or {{key: value}} (no spaces around colon)
+6. Relationship syntax: (node1)-[:RELATIONSHIP_TYPE]->(node2)
+7. Always set file_path and repo_path on every node and relationship
+8. Output ONLY valid Cypher code - no explanations, no markdown, no comments
+
+EXAMPLE OF CORRECT SYNTAX:
+CREATE (person:Person {{name: "John", file_path: "/path/to/file.md", repo_path: "/path/to/repo"}})
+CREATE (place:Place {{name: "Paris", file_path: "/path/to/file.md", repo_path: "/path/to/repo"}})
+CREATE (person)-[:VISITED {{file_path: "/path/to/file.md", repo_path: "/path/to/repo"}}]->(place)
+
+INCORRECT (DO NOT DO THIS):
+CREATE (person:Person {{name: "John"}})
+MATCH (person)  // ERROR: MATCH won't find node just created
+CREATE (person)-[:VISITED]->(place:Place {{name: "Paris"}})  // ERROR: Can't create node inline in relationship
+
+Your output must be ONLY Cypher code starting with CREATE or MERGE, with no explanations or markdown formatting.
+
